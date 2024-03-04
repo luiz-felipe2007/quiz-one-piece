@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizUR 2.0</title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: center;
+            background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ac7d1c8d-1921-474d-8b70-12169bfb149e/dfqv3bi-89dc678f-6f44-40eb-9237-a2f8fd778da8.png/v1/fill/w_1280,h_720,q_80,strp/dark_desktop_background_in_4k_one_piece_by_trutkach_dfqv3bi-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvYWM3ZDFjOGQtMTkyMS00NzRkLThiNzAtMTIxNjliZmIxNDllXC9kZnF2M2JpLTg5ZGM2NzhmLTZmNDQtNDBlYi05MjM3LWEyZjhmZDc3OGRhOC5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.5P79_oal_SN7IvT7OR1bzj2Ygn2cdtRVPJc6ye-K06U);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #pergunta {
+            font-size: 24px;
+            margin-bottom: 20px;
+            background-color: #00ffff;
+            border-radius: 40px;
+            font-size: 30px;
+        }
+
+        #opcoes {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            border-radius: 60px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-size: 30px
+        }
+
+        .correto {
+            background-color: #BBC34A;
+            border-radius: 60px;
+        }
+
+        .incorreto {
+            background-color: #f80303;
+            border-radius: 60px;
+        }
+
+        .final{
+            background-color: #18d611;
+            color: aliceblue;
+            border-radius: 70px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="quiz-container">
+        <h1 style="background-image: url(https://img.freepik.com/vetores-premium/nuvens-em-uma-ilustracao-de-pintura-desenhada-a-mao-de-fundo-de-ceu-azul-brilhante_128685-1192.jpg?w=1060); background-size: 1000px; border-radius: 50px; color: aliceblue;">Quiz de One Piece</h1>
+        <div id="pergunta"></div>
+        <div id="opcoes"></div>
+        <div id="resultado"></div>
+    </div>
+
+<script>
+    const perguntas = [
+        {
+            pergunta: "Quem foi Gol D. Roger?",
+            opcoes: [" A) O Rei dos piratas", " B) Lider do exército revolucionário", "C) Rei do Mundo", "D) Cara que negou pão pro Nagato"],
+            resposta: " A) O Rei dos piratas"
+        },
+        {
+            pergunta: "Existem quantos Sichibukais?",
+            opcoes: ["A) 6", "B) 7", "C) 8", "D) 9"],
+            resposta: "B) 7"
+        },
+        {
+            pergunta: "Qual o Homem com a Maior recompensa do mundo?",
+            opcoes: ["Monkey D. Luffy", "Edward Newgate", "Dracule Mihawk", "Monkey D. Dragon"],
+            resposta: "Monkey D. Dragon"
+        },
+
+        {
+            pergunta: "Qual o imediato do Rei dos piratas?",
+            opcoes: ["A) Silvers Rayleigh", "B) Charlote Katakuri", "C) Kaidou", "D) Roronoa Zoro"],
+            resposta: "A) Silvers Rayleigh"
+        },
+
+        {
+            pergunta: "Qual o Primeiro Comandante de Edward Newgate?",
+            opcoes: ["A) Vinsmoke Sanji", "B) Portugas D. Ace", "C) Marco", "D) Crocodile"],
+            resposta: "C) Marco"
+        }
+
+        // Adicione mais perguntas aqui
+    ];
+
+    const perguntaElemento = document.getElementById("pergunta");
+    const opcoesElemento = document.getElementById("opcoes");
+    const resultadoElemento = document.getElementById("resultado");
+
+    let indicePerguntaAtual = 0;
+
+    function carregarPergunta() {
+        const perguntaAtual = perguntas[indicePerguntaAtual];
+        perguntaElemento.textContent = perguntaAtual.pergunta;
+
+        opcoesElemento.innerHTML = "";
+        perguntaAtual.opcoes.forEach(opcao => {
+            const botao = document.createElement("button");
+            botao.textContent = opcao;
+            botao.addEventListener("click", () => verificarResposta(opcao));
+            opcoesElemento.appendChild(botao);
+        });
+    }
+
+    function verificarResposta(respostaSelecionada) {
+        const perguntaAtual = perguntas[indicePerguntaAtual];
+        if (respostaSelecionada === perguntaAtual.resposta) {
+            resultadoElemento.textContent = "Resposta correta!";
+            resultadoElemento.className = "correto";
+        } else {
+            resultadoElemento.textContent = "Resposta incorreta. A resposta correta é: " + perguntaAtual.resposta;
+            resultadoElemento.className = "incorreto";
+        }
+
+        // Avança para a próxima pergunta ou finaliza o quiz
+        indicePerguntaAtual++;
+        if (indicePerguntaAtual < perguntas.length) {
+            setTimeout(carregarPergunta, 2000); // Carrega a próxima pergunta após 2 segundos
+        } else {
+            resultadoElemento.textContent = "Quiz concluído!!!";
+            resultadoElemento.className = "final";
+        }
+    }
+
+    // Carregar a primeira pergunta quando a página carrega
+    carregarPergunta();
+</script>
+
+<!-- ... Resto do HTML ... -->
+<footer style="background-color: #000000; color: aliceblue; margin-top: 20%;">Feito por: Luiz Felipe Sabaranski Marques &#174</footer>
+</body>
+
+</html>
